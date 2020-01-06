@@ -4,6 +4,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 final googleSignIn = GoogleSignIn();
 final auth = FirebaseAuth.instance;
+final firestore = Firestore.instance;
 
 Future<Null> ensureLoggedIn() async {
   GoogleSignInAccount user = googleSignIn.currentUser;
@@ -26,6 +27,7 @@ sendToFirebase({String text, String imageUrl}) async {
     'senderName': googleSignIn.currentUser.displayName,
     'senderPhoto': googleSignIn.currentUser.photoUrl,
     'textMessage': text,
-    'imageUrl': imageUrl
+    'imageUrl': imageUrl,
+    'date': DateTime.now()
   });
 }
