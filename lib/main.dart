@@ -102,23 +102,18 @@ class _FormState extends State<Form> {
                   File image =
                       await ImagePicker.pickImage(source: ImageSource.camera);
 
+                  await ensureLoggedIn();
+
                   StorageUploadTask uploadTask = FirebaseStorage.instance
                       .ref()
                       .child(googleSignIn.currentUser.id +
                           DateTime.now().toString())
                       .putFile(image);
 
-                  final x = await uploadTask.onComplete
-                      .then((v) => v.uploadSessionUri.toFilePath());
-
                   final imageUrl =
                       await (await uploadTask.onComplete).ref.getDownloadURL();
 
-                  print([x, imageUrl]);
-
-                  setState(() {
-                    _imageUrl = imageUrl;
-                  });
+                  setState(() => _imageUrl = imageUrl);
                   submit();
                 },
               ),
@@ -131,7 +126,7 @@ class _FormState extends State<Form> {
                 },
                 onSubmitted: (text) => submit(),
                 decoration: InputDecoration.collapsed(
-                  hintText: "Insira aqui o texto!",
+                  hintText: "Insira aqui",
                 ),
               ),
             ),
